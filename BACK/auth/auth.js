@@ -13,9 +13,10 @@ module.exports = {
         NOT_FOUND_MSG("Password required",res)
         else 
         {
-            if(user.email != null)
+            let loginUser = await PROVIDER.USER.USER_BY_EMAIL(user.email)
+
+            if(user.email != null && loginUser != null)
             {
-                let loginUser = await PROVIDER.USER.USER_BY_EMAIL(user.email)
                 let isValid = await encrypt.password_check(password,loginUser.password)
                 if(isValid)
                 {
@@ -31,6 +32,8 @@ module.exports = {
                 else
                 BLOCK_ACCESS(res)                
             }
+            else
+            BLOCK_ACCESS(res)                
         }       
     }
 

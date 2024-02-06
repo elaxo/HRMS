@@ -1,6 +1,8 @@
 const Joi = require("joi");
 const { NOT_FOUND_MSG, RES_RESULT, ERROR_FOUND } = require("../service/responses");
 const PROVIDER = require("../provider");
+const { EMPLOYEE_BY_USERID } = require("../provider/EmployeeProvider");
+const { Obj } = require("../service/debug");
 
 module.exports = {
         CREATE_USER_VALIDATOR: async (req,res,next)=>{
@@ -40,5 +42,39 @@ module.exports = {
               NOT_FOUND_MSG((error.details[0].message).replace(/\\/g, '').replace(/"/g, ''),res)
               else
               next()
+            },
+            CREATE_EMPLOYEE_VALIDATOR:async (req,res,next)=>{
+              let data = req.body 
+              Obj(data)
+              const scheme = Joi.object({
+                dateOfBirth: Joi.string().required(),
+                address: Joi.string().required(),
+                nationality: Joi.string().required(),
+                idNumber: Joi.string().required(),
+                tinNumber: Joi.string().allow(""),
+                secondaryPhoneNumber: Joi.string().allow(""),
+                BankAccount: Joi.object().required(),
+                martialStatus: Joi.object().default({}),
+                children: Joi.boolean().required().default(false),
+                emergencyContact: Joi.object().optional().default({}),
+                nextOfKeen: Joi.object().optional().default({}),
+                workExperience: Joi.array().required(),
+                certification: Joi.string().allow(null),
+                educationalDocument: Joi.string().allow(null),
+              });
+
+              let {error,value} = scheme.validate(data)
+              if(error)
+              NOT_FOUND_MSG((error.details[0].message).replace(/\\/g, '').replace(/"/g, ''),res)
+              else
+              {
+                let user = req.user 
+                let empProfile =await EMPLOYEE_BY_USERID(user.id)
+                if(empProfile != null)
+                ERROR_FOUND("You already have an employer profile",res)
+                else 
+                next()
+              }
+
             }
 }

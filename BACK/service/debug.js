@@ -11,6 +11,7 @@ module.exports ={
             return console.log(`-------------------------------------\n ${info} \n ${JSON.stringify(obj,0,2)}\n-------------------------------------`.blue)
         },
         ErrorObject:(info,obj)=>{
+            console.log(obj,"".red)
             return console.log(`-------------------------------------\n ${info} \n ${JSON.stringify(obj,0,2)}\n-------------------------------------`.red)
         }
 

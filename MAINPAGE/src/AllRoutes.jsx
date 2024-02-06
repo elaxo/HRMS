@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { Auth, Dashboard } from './layouts'
 import { useSelector } from 'react-redux'
-
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify'
+import "react"
 const AllRoutes = () => {
 
   const [allow,setAllow] = useState(false)
@@ -16,6 +18,7 @@ const AllRoutes = () => {
 
   return (
     <>
+    <ToastContainer/>
     <Routes>
       <Route path="/dashboard/*" element={allow?<Dashboard />:<Auth/>} />
       <Route path='/auth' element={<Auth/>} />

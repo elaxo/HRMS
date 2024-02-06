@@ -25,6 +25,8 @@ export function Auth() {
           dispatch(setUser({token:userValue,detail:result.data}))
           if(result?.data?.role == 0)
           navigate('/dashboard/user/type')
+          else 
+          alert("Define where to ga")
 
         }).catch((err) => {
           console.log(err)
@@ -38,10 +40,11 @@ export function Auth() {
         else
         await axios.post(`${URLS.baseURL}/users/verify`,{payload:token})
         .then((result) => {
-          
           dispatch(setUser({token:token,detail:result.data}))
           if(result?.data?.role == 0)
           navigate('/dashboard/user/type')
+          else 
+          navigate('/dashboard')
 
         }).catch((err) => {
           dispatch(clearUser())

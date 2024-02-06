@@ -6,6 +6,7 @@ const initialState = {
     isLogged:false,
     token:"",
     userDetail:null,
+    Auth:{}
 
 }
 
@@ -23,6 +24,9 @@ const userState = createSlice({
             state.userDetail = action.payload.detail
             state.isLogged = true
              sessionStorage.setItem("token",action.payload.token)
+             state.Auth = {headers:{
+                Authorization:`Bearer ${action.payload.token}`
+              }}
         },
         clearUser:(state)=>{
                 sessionStorage.removeItem('token')
@@ -38,6 +42,9 @@ const userState = createSlice({
             {
                 state.token = token
                 state.isLogged = true
+                state.Auth = {headers:{
+                    Authorization:`Bearer ${token}`
+                  }}
             }
         }
     }

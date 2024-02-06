@@ -6,6 +6,7 @@ const helmet = require('helmet')
 const compression = require('compression')
 const {Info} = require('./service/debug')
 const router = require('./routes')
+const botRoute = require('./routes/botRoutes')
 const app = express()
 app.use(helmet())        // helmet middleware 
 app.use(compression())   // compression middle
@@ -14,6 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }))  //body parser
 app.use(bodyParser.json())                           //body parser
 app.disable('x-powered-by')
 app.use(router)
+app.use(botRoute)
 
 
 app.listen(process.env.PORT,()=>{Info("Server is running on port "+process.env.PORT)})
