@@ -3,7 +3,7 @@ const { NOT_FOUND_MSG, RES_RESULT, ERROR_FOUND } = require("../service/responses
 const PROVIDER = require("../provider");
 const { EMPLOYEE_BY_USERID } = require("../provider/EmployeeProvider");
 const { Obj } = require("../service/debug");
-
+const {COMPANY} = require('../provider')
 module.exports = {
         CREATE_USER_VALIDATOR: async (req,res,next)=>{
             const schema = Joi.object({
@@ -31,6 +31,15 @@ module.exports = {
                 next()
               }
             },
+
+
+
+
+
+
+
+
+
             LOGIN_USER:(req,res,next)=>{
               let data = req.body 
               const scheme = Joi.object({
@@ -43,6 +52,18 @@ module.exports = {
               else
               next()
             },
+
+
+
+
+
+
+
+
+
+
+
+
             CREATE_EMPLOYEE_VALIDATOR:async (req,res,next)=>{
               let data = req.body 
               Obj(data)
@@ -75,6 +96,48 @@ module.exports = {
                 else 
                 next()
               }
+            },
+
+
+
+
+
+
+
+
+
+
+            CREATE_COMPANY_VALIDATOR:async (req,res,next)=>{
+
+              const companyValidator = Joi.object({
+                companyName: Joi.string().required(),
+                industry: Joi.string().required(),
+                businessDescription: Joi.string().required(),
+                companySize: Joi.string().required(),
+                location: Joi.string().required(),
+                isBranch: Joi.boolean().required(),
+                branchs: Joi.array().required()
+              });
+              
+              // Example usage
+              const data = req.body
+              const { error, value } = companyValidator.validate(data);              
+              if (error) {
+                NOT_FOUND_MSG((error.details[0].message).replace(/\\/g, '').replace(/"/g, ''),res)
+              } 
+              
+              else 
+              {
+                let ownUser = req.user.id 
+                let Company = await COMPANY.COMPANY_BY_OWNER(ownUser)
+                if(Company == null)
+                next()
+                else
+                ERROR_FOUND("One user can only have one company and many branches",res)
+                
+              }
 
             }
+
+
 }

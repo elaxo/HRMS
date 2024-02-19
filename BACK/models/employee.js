@@ -7,6 +7,12 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,
             allowNull: false,
         },
+        avatar:{
+            type:DataTypes.STRING,
+            allowNull:true,
+            defaultValue:"default.png"
+
+        },
         name: {
             type: DataTypes.STRING,
             allowNull: false,

@@ -9,7 +9,6 @@ const { ERROR_FOUND, SUCCESS_MSG } = require("../service/responses")
 module.exports = {
 
     CREATE_TELEGRAM_USER: async (req,res)=>{
-
         let telegramUser = req.body 
         let user = await USER_BY_PHONE(telegramUser.phone_number)
         

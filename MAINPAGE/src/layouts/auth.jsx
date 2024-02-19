@@ -1,11 +1,12 @@
+import { xhrError } from "@/configs/ERRORS";
 import { URLS } from "@/configs/URLS";
-import { clearUser, setUser } from "@/hooks/userState";
+import userState, { clearUser, setCompany, setProfile, setUser } from "@/hooks/userState";
 import { Card, CardBody, Typography } from "@material-tailwind/react";
 import axios from "axios";
 import CryptoJS from "crypto-js";
 import { useEffect, useState } from "react";
 import { Cube, Dots, Lines, Planets } from "react-preloaders";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export function Auth() {
@@ -17,34 +18,108 @@ export function Auth() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
+  
   useEffect(()=>{
     (async ()=>{
-      if(userValue != null)  
+
+      if(userValue != null && from != "email")  
       await axios.post(`${URLS.baseURL}/users/verify`,{payload:userValue})
-        .then((result) => {
+        .then(async (result) => {
           dispatch(setUser({token:userValue,detail:result.data}))
           if(result?.data?.role == 0)
-          navigate('/dashboard/user/type')
-          else 
-          alert("Define where to ga")
 
+          navigate('/dashboard/user/type',{state:{card:2}})
+          else if(result?.data?.role == 1)
+          {
+              (async ()=>{
+                await axios.get(`${URLS.baseURL}/employee/profile`,
+                {headers:{
+                  Authorization:`Bearer ${userValue}`
+                }}
+                )
+                .then((result) => {                  
+                  dispatch(setProfile(result.data))
+                }).catch((err) => {
+                   xhrError(err) 
+                });
+              })()          
+            navigate('/dashboard/emp/home')
+          }  
+          else if(result?.data?.role == 111)
+          {
+           await axios.get(`${URLS.baseURL}/company/user`,{headers:{
+            Authorization:`Bearer ${userValue}`
+          }})
+            .then((result) => {
+              dispatch(setCompany(result.data))
+              navigate('/dashboard/empr/home')
+            }).catch((err) => {
+              xhrError(err)
+            });          
+          }        
         }).catch((err) => {
           console.log(err)
-           window.location.href = URLS.backURL
+         window.location.href = URLS.backURL
         });
-      else 
+      
+        else if(userValue != null && from == "email")
+        {
+          await axios.post(`${URLS.baseURL}/users/verify/email`,{payload:userValue})
+          .then((result) => {
+            let token = result.data.token
+            sessionStorage.setItem("token",token)
+            const newURL = window.location.origin + window.location.pathname
+            window.location.href = newURL  
+          }).catch((err) => {
+          console.log(err)
+          //  window.location.href = URLS.backURL
+          });
+
+        }
+        else 
       {
         let token = sessionStorage.getItem("token")
         if(token == null)
         window.location.href = URLS.backURL
         else
         await axios.post(`${URLS.baseURL}/users/verify`,{payload:token})
-        .then((result) => {
+        .then(async (result) => {
           dispatch(setUser({token:token,detail:result.data}))
+          console.log(result.data)
           if(result?.data?.role == 0)
-          navigate('/dashboard/user/type')
-          else 
-          navigate('/dashboard')
+          navigate('/dashboard/user/type',{state:{card:2}})
+          else if(result?.data?.role == 1)
+          navigate('/dashboard/user/type',{state:{card:1}})
+          else if(result?.data?.role == 2)
+          {
+              (async ()=>{
+                await axios.get(`${URLS.baseURL}/employee/profile`,
+                {headers:{
+                  Authorization:`Bearer ${token}`
+                }})
+                .then((result) => {
+                  dispatch(setProfile(result.data))
+                }).catch((err) => {
+                   xhrError(err) 
+                });
+              })()          
+            navigate('/dashboard/emp/home')
+          }
+          else if(result?.data?.role == 111)
+          {
+            await axios.get(`${URLS.baseURL}/company/user`,{headers:{
+              Authorization:`Bearer ${token}`
+            }})
+            .then((result) => {
+              console.log(result)
+              dispatch(setCompany(result.data))
+              navigate('/dashboard/empr/home')
+            }).catch((err) => {
+              xhrError(err)
+            });          
+
+          
+          }          
 
         }).catch((err) => {
           dispatch(clearUser())

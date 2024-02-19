@@ -28,7 +28,8 @@ module.exports = {
                             else
                             RES_RESULT({token:token},res)
                         })                 
-                }
+                
+                    }
                 else
                 BLOCK_ACCESS(res)                
             }

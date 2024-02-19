@@ -5,7 +5,6 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: [{ find: "@", replacement: "/src" }],
-    // vite.config.js
   server: {
     port: 3006,
   },

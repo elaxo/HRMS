@@ -18,13 +18,13 @@ db.Sequelize = Sequelize;
 db.Users = require('./Users')(sequelize,DataTypes)
 db.Employees = require('./employee')(sequelize,DataTypes)
 db.TelegramUser = require('./TelegarmUser')(sequelize,DataTypes)
-
-
-
-
-
-
-
+db.Company = require('./company')(sequelize,DataTypes)
+db.branch = require('./branches')(sequelize,DataTypes)
+db.department = require('./departments')(sequelize,DataTypes)
+db.teams = require('./teams')(sequelize,DataTypes)
+db.positions = require('./position')(sequelize,DataTypes)
+db.CompanyEmployee = require('./companyEmployee')(sequelize,DataTypes)
+db.pendingEmployee = require('./pendingEmployee')(sequelize,DataTypes)
 
 
 

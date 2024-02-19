@@ -32,8 +32,20 @@ module.exports = {
         }
         else
         BLOCK_ACCESS(res)
+    },
+    botAuth:(req,res,next)=>{
+        let authorizationHeader = req.headers?.authorization 
+        if(authorizationHeader == null || authorizationHeader == undefined)
+        BLOCK_ACCESS(res)
+        else 
+        {
+            if(authorizationHeader == process.env.botAuth)
+            next()
+            else
+            BLOCK_ACCESS(res)
+        }
 
-        
+
 
     }
 }

@@ -10,23 +10,43 @@ import {
 import routes from "@/routes";
 import { useMaterialTailwindController, setOpenConfigurator } from "@/context";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { SidenavEmployee } from "@/widgets/layout/sidenavEmployee";
+import DashboardNavbarEmployee from "@/widgets/layout/dashboard-navbar-employee";
+import axios from "axios";
+import { URLS } from "@/configs/URLS";
+import SidenavEmpr from "@/widgets/layout/sidenavEmployer";
+import DashboardNavbarEmployer from "@/widgets/layout/dashboard-navbar-employeer";
 
 export function Dashboard() {
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavType } = controller;
   const userState = useSelector((state)=>state.userState)
 
+
+
   return (
     <div className="min-h-screen bg-blue-gray-50/50">
-      {userState?.userDetail?.role == 0?<></>:<Sidenav
+      {userState?.userDetail?.role == 0?<>
+      </>:
+      userState?.userDetail?.role == 2?
+      <SidenavEmployee
         routes={routes}
         brandImg={
           sidenavType === "dark" ? "/img/logo-ct.png" : "/img/logo-ct-dark.png"
         }
-      />}
+      />
+    :
+    userState?.userDetail?.role == 111?<SidenavEmpr/>:<></>
+    }
       <div className="p-4 xl:ml-80">
-        { userState?.userDetail?.role == 0?<></>:<DashboardNavbar />}
+        { userState?.userDetail?.role == 0?<></>:
+        userState.userDetail?.role == 2?
+        <DashboardNavbarEmployee />:
+        userState?.userDetail?.role == 111?
+        <DashboardNavbarEmployer/>:
+        <></>
+      }
         <Configurator />
         <IconButton
           size="lg"

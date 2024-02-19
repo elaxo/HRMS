@@ -1,5 +1,5 @@
 import { Button, Card, CardBody, CardFooter, CardHeader, Checkbox, IconButton, Input, Option, Radio, Select, Typography } from '@material-tailwind/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {motion} from 'framer-motion'
 import { toast } from 'react-toastify'
 import { PlusIcon } from '@heroicons/react/24/solid'
@@ -7,15 +7,18 @@ import { useSelector } from 'react-redux'
 import { URLS } from '@/configs/URLS'
 import axios from 'axios'
 import { xhrError } from '@/configs/ERRORS'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
+import CompanyReg from './dashboard/CompanyReg'
 const ChoseUserType = () => {
 
+    const location = useLocation()
     const [cardNum,setCardNum] = useState(0)
     const [userType,setUserType] = useState(0)
     const userState = useSelector(state=>state.userState)
     const [agree,setAgree] = useState(false)
     const [loading,setLoading] = useState(false)
     const navigate = useNavigate()
+    const [pwd,setPwd] = useState({password:"",confirmPassword:""})
     const [employee,setEmployee]= useState({
         dateOfBirth:"",
         address:"",
@@ -58,6 +61,12 @@ const ChoseUserType = () => {
         }]
     })
 
+    useEffect(()=>{
+
+        if(history.state.usr != null)
+       setCardNum(history.state.usr.card)
+
+    },[history])
 
 const SUBMIT = async ()=>{
 
@@ -73,7 +82,7 @@ await axios.post(`${URLS.baseURL}/employees/create`,employee,userState.Auth)
 
 }
 
-  return (<div className='h-full'>
+  return (<div className=''>
   {
 cardNum == 0?  
 
@@ -85,22 +94,8 @@ cardNum == 0?
         >
       <div className='pt-32 sm:w-full lg:w-1/2'>
         <Card>
-            <CardHeader>
-                <Typography variant='h4' className='p-6 text-primary'>
-                What are you looking for in this System?
-                </Typography>
-            </CardHeader>
-            <CardBody>
-                <div className='p-6 flex'>
-     <div className="flex gap-10">
-       <Radio name="type" onClick={e=>setUserType(1)} label="I work as an employee" className='text-primary' />
-       <Radio name="type" onClick={e=>setUserType(2)} label="I am here to develop the company's HRMS" className='text-primary'   />
-     </div>
-                </div>
-            </CardBody>
-        <CardFooter className='border-primary border-t-2 mt-6'>
-            <Button onClick={e=>{if(userType == 1)setCardNum(1); else if(userType == 2)setCardNum(2)}} className='px-6 bg-primary'>Next</Button>
-        </CardFooter>
+
+
         </Card>
     </div>
     </motion.div>
@@ -122,7 +117,7 @@ cardNum == 1?
     </CardHeader>
     <CardBody>
         <div className='p-6 flex'>
-<div className="grid lg:grid-cols-3 sm:grid-cols-1 lg:grid-cols-2 gap-10">
+<div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-10">
 <div className='space-y-2'>
         <Typography>Date of Birth</Typography>
         <div className='flex'>
@@ -736,6 +731,72 @@ cardNum == 1.5 ?
 <div className='p-6 flex'>
 <div className="grid lg:grid-cols-3 sm:grid-cols-1 md:grid-cols-2 gap-4">
    <hr className='border-2 lg:col-span-3 sm:col-span-1 border-primary'/>
+   <Typography variant='h4' className='lg:col-span-3 sm:col-span-1 text-primary font-bold'>
+   Create password
+   </Typography>
+   <div className='space-y-2'>
+    <label>
+        Enter password
+    </label>
+    <Input type='password' value={pwd.password} onChange={e=>setPwd({...pwd,password:e.target.value})}/>
+   </div>
+   <div className='space-y-2'>
+   <label>
+        Confirm password
+    </label>
+    <Input type='password' value={pwd.confirmPassword} onChange={e=>setPwd({...pwd,confirmPassword:e.target.value})}/>
+   </div>
+</div>
+       </div>
+   </CardBody>
+   <CardFooter>
+   <Button disabled={loading} onClick={async (e)=>{
+        
+        if(pwd.password.length < 8)
+        toast.warning("Password length must me greater than 8 characters")
+        else if(pwd.confirmPassword != pwd.password)
+        toast.warning("Two password not match")
+        else
+        {
+            setLoading(true)
+            await axios.put(`${URLS.baseURL}/user/create/password`,pwd,userState.Auth)
+            .then((result) => {
+                setLoading(false)
+                toast.success(result?.data?.msg)
+                setCardNum(1.7)
+            }).catch((err) => {
+                xhrError(err)
+                setLoading(false)
+                console.log(err)
+            });
+
+        }
+        
+       }} className='bg-primary flex space-x-4 items-center'>
+         {loading?"Loading....":"Next"}
+       </Button>
+   </CardFooter>
+</Card>
+</div>
+</motion.div>)
+:cardNum == 1.7 ? 
+(
+   <motion.div key={903}
+   initial={{ x: -100 }}
+   animate={{ x: 0 }}
+   exit={{ x: -100 }}
+   >
+<div className='pt-32 sm:w-full lg:w-1/2'>
+<Card>
+   <CardHeader>
+       <Typography variant='h5' className='p-6 text-primary'>
+       We build Stronger Workplace Connections
+               </Typography>
+   </CardHeader>
+   <CardBody>
+<div className='p-6 flex'>
+<div className="grid lg:grid-cols-3 sm:grid-cols-1 md:grid-cols-2 gap-4">
+   <hr className='border-2 lg:col-span-3 sm:col-span-1 border-primary'/>
    <Typography className='lg:col-span-3 sm:col-span-1 text-primary font-bold'>
    Terms and condtions
    </Typography>
@@ -762,6 +823,8 @@ setAgree(false)
 </Card>
 </div>
 </motion.div>)
+:
+cardNum == 2?<CompanyReg/>
 :
 <>
 </>

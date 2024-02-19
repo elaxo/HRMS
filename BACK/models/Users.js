@@ -17,7 +17,7 @@ module.exports = (sequelize,DataTypes)=>{
         },
         sex:{
             type:DataTypes.STRING,
-            allowNull:false
+            allowNull:false,
         },
         address:{
             type:DataTypes.STRING,
@@ -29,11 +29,11 @@ module.exports = (sequelize,DataTypes)=>{
         },
         phone:{
             type:DataTypes.STRING,
-            allowNull:false
+            allowNull:true
         },
         password:{
             type:DataTypes.STRING,
-            allowNull:false
+            allowNull:true
         },
         role:{
             type:DataTypes.INTEGER,

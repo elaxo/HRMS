@@ -9,15 +9,15 @@ import { Provider } from "react-redux";
 import { store } from "./hooks/Store";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  <React.Fragment>
     <Provider store={store}>
     <BrowserRouter>
-      <ThemeProvider>
+      <ThemeProvider >
         <MaterialTailwindControllerProvider>
           <App />
         </MaterialTailwindControllerProvider>
       </ThemeProvider>
     </BrowserRouter>
     </Provider>
-  </React.StrictMode>
+  </React.Fragment>
 );
