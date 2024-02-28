@@ -8,12 +8,16 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { useMaterialTailwindController, setOpenSidenav } from "@/context";
-import { HomeIcon, UserCircleIcon } from "@heroicons/react/24/solid";
+import { BookOpenIcon, HomeIcon, PaperClipIcon, TvIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import { Home, Profile } from "@/pages/dashboard";
 import EmployeeHome from "@/pages/dashboard/EmployeeHome";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import EmployeeProfile from "@/pages/dashboard/employeeProfile";
+import LeaveRequest from "@/pages/dashboard/LeaveRequest";
+import axios from "axios";
+import { URLS } from "@/configs/URLS";
+import { xhrError } from "@/configs/ERRORS";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -35,8 +39,8 @@ const routes = [
         name: "profile",
         path: "/emp/profile",
         element: <EmployeeProfile />,
-      },
-    ],
+      }
+        ],
   }
 ];
 
@@ -52,11 +56,26 @@ export function SidenavEmployee({ brandImg, brandName }) {
 
 
   const userState = useSelector((state)=>state.userState)
+  const [company,setCompany] = useState({})
 
   useEffect(()=>{
 
-    console.log(userState)
-  },[])
+    (async ()=>{
+      if(userState.isLogged)
+      await axios.get(`${URLS.baseURL}/company/me`,userState.Auth)
+      .then((result) => {
+        setCompany(result.data)
+      }).catch((err) => {
+        xhrError(err)
+      });
+    })()
+  
+  },[userState])
+
+
+
+
+
 
   return (
     <aside
@@ -129,6 +148,74 @@ export function SidenavEmployee({ brandImg, brandName }) {
                 </NavLink>
               </li>
             ))}
+
+<li>
+<ul className="border-2 p-2 border-primary rounded-md">
+  <div className="py-2">
+    <Typography className="w-full text-primary border-b-2 border-primary text-center font-bold">
+      
+      {company?.companyName}
+      </Typography>
+  </div>
+  <li>
+      <NavLink to={`/${layout}/emp/request`}>
+        {({ isActive }) => (
+          <Button
+            variant={isActive ? "" : "text"}
+            onClick={() => setOpenSidenav(dispatch, false)}
+            color={
+              isActive
+                ? sidenavColor
+                : sidenavType === "dark"
+                ? "white"
+                : "primary"
+            }
+            className={(isActive?" bg-primary text-white ":" text-primary ")+" flex items-center gap-4 px-4 capitalize"}
+            fullWidth
+          >
+            <PaperClipIcon className="h-6" />
+            <Typography
+              color="inherit"
+              className="font-medium capitalize"
+            >
+              Leave Requests
+            </Typography>
+          </Button>
+        )}
+      </NavLink>
+ </li>
+ <li>
+      <NavLink to={`/${layout}/emp/projects`}>
+        {({ isActive }) => (
+          <Button
+            variant={isActive ? "" : "text"}
+            onClick={() => setOpenSidenav(dispatch, false)}
+            color={
+              isActive
+                ? sidenavColor
+                : sidenavType === "dark"
+                ? "white"
+                : "primary"
+            }
+            className={(isActive?" bg-primary text-white ":" text-primary ")+" flex items-center gap-4 px-4 capitalize"}
+            fullWidth
+          >
+            <BookOpenIcon className="h-6" />
+            <Typography
+              color="inherit"
+              className="font-medium capitalize"
+            >
+              Projects
+            </Typography>
+          </Button>
+        )}
+      </NavLink>
+ </li>
+
+</ul>
+</li>
+
+
           </ul>
         ))}
       </div>

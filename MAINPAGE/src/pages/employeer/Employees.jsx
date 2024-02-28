@@ -28,6 +28,7 @@ const Employees = () => {
         phone:null,
         address:"",
         position:null,
+        startDate:""
 })
     const userState = useSelector((state)=>state.userState)
     const [positions,setPositions] = useState([])
@@ -67,15 +68,10 @@ const Employees = () => {
     }
 
 
-
-
-
-
-
   return (
   <>
-     <Dialog open={show} size='xl'>
-        <DialogHeader className='rounded-md shadow-lg p-2 flex justify-between items-center bg-primary'>
+ <Dialog open={show} size='xl'>
+    <DialogHeader className='rounded-md shadow-lg p-2 flex justify-between items-center bg-primary'>
             <Typography variant='h5' className='p-2 text-white'>Profile Detail - {currentDetail?.name}</Typography>
             <IconButton onClick={()=>setShow(false)} className='bg-white rounded-full border-none'>
                 <XCircleIcon className='h-6 text-primary' />
@@ -93,6 +89,11 @@ const Employees = () => {
                     <Typography variant='h3' className=' font-bold  border-primary pl-2'>{currentDetail?.name}</Typography>
                     <Typography className=' capitalize font-bold  border-primary pl-2'>{currentDetail?.sex}</Typography>
                 </div>
+                <div className='space-y-1 col-span-3'>
+                    <Typography variant='h5' className=' font-bold  border-primary pl-2'>Current position</Typography>
+                    <UserPositionDetail userId={currentDetail?.userId} />
+                </div>
+                
             </div>
             <Card className='grid grid-cols-3 shadow-lg gap-3 m-2 border-t-2 border-primary'>
             <div className='p-4'>
@@ -162,7 +163,7 @@ const Employees = () => {
             <Button variant='text' onClick={()=>setShow(false)}>OK</Button>
         </DialogFooter>
     </Dialog>
- 
+    
   <Card className='mt-8'>
     <CardHeader>
     <div className="relative mt-8 h-24 w-full overflow-hidden rounded-xl bg-[url('/img/background-image.png')] bg-cover	bg-center">
@@ -211,32 +212,27 @@ const Employees = () => {
                 
                 <div className='grid grid-cols-2 gap-6'>
                 <div className='space-y-2'>
-                        <label>First Name</label>
-                        <hr className='m-2 border-1 border-primary' />
+                        <label className='text-primary'>First Name</label>
                         <Input value={employee.firstName} onChange={e=>setEmployee({...employee,firstName:e.target.value})} placeholder='First Name' />
                     </div>
                     <div className='space-y-2'>
-                        <label>Last Name</label>
-                        <hr className='m-2 border-1 border-primary' />
+                        <label className='text-primary'>Last Name</label>
                         <Input value={employee.lastName} onChange={e=>setEmployee({...employee,lastName:e.target.value})} placeholder='Last Name' />
                     </div>
                     <div className='space-y-2'>
-                        <label>Email</label>
-                        <hr className='m-2 border-1 border-primary' />
+                        <label className='text-primary'>Email</label>
                         <Input value={employee.email} placeholder='Email' onChange={e=>setEmployee({...employee,email:e.target.value})} />
                     </div>
                     <div className='space-y-2'>
-                        <label>Phone</label>
-                        <hr className='m-2 border-1 border-primary' />
-                        <label className='italic opacity-70'>Ex.. 933555555</label>
+                        <label className='text-primary'>Phone</label>
+                        <label className='italic opacity-70'>&nbsp;Ex.. 933555555</label>
                         <div className='flex items-center  border-gray-500 rounded-md px-2'>
                         <p className='border-2 border-gray-400 py-[5px] px-1 rounded-s-md'>+251</p>
                         <Input className='rounded-none w-full'  type='number' value={phone} placeholder='955......' onChange={e=>setPhone(e.target.value)} />
                         </div>
                     </div>
                     <div className='space-y-2'>
-                        <label>Sex</label>
-                        <hr className='m-2 border-1 border-primary' />
+                        <label className='text-primary'>Sex</label>
                         <Select value={employee.sex} onChange={e=>setEmployee({...employee,sex:e})}>
                         <Option value="">
                                 Chose:
@@ -250,13 +246,11 @@ const Employees = () => {
                         </Select>
                     </div>
                     <div className='space-y-2'>
-                        <label>Address</label>
-                        <hr className='m-2 border-1 border-primary' />
+                        <label className='text-primary'>Address</label>
                         <Input value={employee.address} placeholder='Address' onChange={e=>setEmployee({...employee,address:e.target.value})} />
                     </div>
                     <div className='space-y-2'>
-                        <label>Position</label>
-                        <hr className='m-2 border-1 border-primary' />
+                        <label className='text-primary'>Position</label>
                         <Tooltip content="">
                           <select value={employee.position} onChange={e=>setEmployee({...employee,position:e.target.value})} className='p-4 w-full rounded-lg'>
                             <option value={null}>Chose position:</option>
@@ -265,7 +259,10 @@ const Employees = () => {
                             )}
                         </select>
                         </Tooltip>
-
+                    </div>
+                    <div className='space-y-2'>
+                        <label className='text-primary'>Starting Date:</label>
+                        <Input type='date' value={employee.startDate} onChange={(e)=>setEmployee({...employee,startDate:e.target.value})}/>
                     </div>
                 </div>
             </CardBody>
@@ -279,7 +276,7 @@ const Employees = () => {
            if(employee.firstName == "" ||
             employee.lastName == "" ||
              employee.email == "" || employee.position == null
-             || employee.address == "" || employee.sex == "" || employee.phone == null)
+             || employee.address == "" || employee.sex == "" || employee.phone == null || employee.startDate == "")
            toast.warning("Please enter all the required inputs")
            else
            {
@@ -550,7 +547,7 @@ const AllEmployees = ({})=>{
         rangeSeparatorText: 'Employees',
         selectAllRowsItem: true,
         selectAllRowsItemText: 'Employees',
-      };
+      }
     const [show,setShow] = useState(false)
     const [currentDetail,setDetail] = useState(null)
     const ViewDetail= async (row)=>{
@@ -569,6 +566,7 @@ const AllEmployees = ({})=>{
 
     return (
     <>
+
     <Dialog open={show} size='xl'>
     <DialogHeader className='rounded-md shadow-lg p-2 flex justify-between items-center bg-primary'>
             <Typography variant='h5' className='p-2 text-white'>Profile Detail - {currentDetail?.name}</Typography>
@@ -576,6 +574,8 @@ const AllEmployees = ({})=>{
                 <XCircleIcon className='h-6 text-primary' />
             </IconButton>
         </DialogHeader>
+        <ToastContainer/>
+
         <hr  className='border-2 border-primary'/>
         <DialogBody className='p-4 w-full'>
             <div className='grid grid-cols-5 gap-3'>
@@ -588,9 +588,9 @@ const AllEmployees = ({})=>{
                     <Typography variant='h3' className=' font-bold  border-primary pl-2'>{currentDetail?.name}</Typography>
                     <Typography className=' capitalize font-bold  border-primary pl-2'>{currentDetail?.sex}</Typography>
                 </div>
-                <div className='space-y-1'>
+                <div className='space-y-1 col-span-3'>
                     <Typography variant='h5' className=' font-bold  border-primary pl-2'>Current position</Typography>
-                    <UserPositionDetail userId={currentDetail?.id} />
+                    <UserPositionDetail userId={currentDetail?.userId} />
                 </div>
                 
             </div>
@@ -662,6 +662,7 @@ const AllEmployees = ({})=>{
             <Button variant='text' onClick={()=>setShow(false)}>OK</Button>
         </DialogFooter>
     </Dialog>
+
     <Card className='mt-4'>
         <CardHeader className='p-2'>
             <div className='flex space-x-2 justify-center'>
@@ -812,26 +813,112 @@ const UserPositionDetail = ({userId})=>{
     
 
     const [userPositionDetail,setPositionDetail] = useState(null)
+    const [otherDetails,setDetails] = useState({})
+    const [positions,setPositions] = useState([])
+    const [update,setUpdate] = useState(false)
     const userState = useSelector((state)=>state.userState)
+
+    useEffect(()=>{
+        (async ()=>{
+            await axios.get(`${URLS.baseURL}/positions/user`,userState.Auth)
+            .then((result) => {
+                setPositions(result.data)
+            }).catch((err) => {
+                xhrError(err)
+            });
+        })()
+    },[userState])
 
     useEffect(()=>{
         (async ()=>{
             await axios.get(`${URLS.baseURL}/position/user/detail?id=${userId}`,userState.Auth)
             .then((result) => {
-                
+                setPositionDetail(result.data)
             }).catch((err) => {
-                
+                xhrError(err)
             });
         })()
+    },[update])
+
+    useEffect(()=>{
+        (async ()=>{
+
+            let newValue = {} 
+
+            await axios.get(`${URLS.baseURL}/branch/detail?id=${userPositionDetail?.branch}`,userState.Auth)
+            .then((result) => {
+                setDetails({...otherDetails,branch:result.data})
+                newValue.branch = result.data
+            }).catch((err) => {
+                xhrError(err)
+            });
+
+            await axios.get(`${URLS.baseURL}/department/detail?id=${userPositionDetail?.department}`,userState.Auth)
+            .then((result) => {
+               // setDetails({...otherDetails,department:result.data})
+               newValue.department = result.data
+            }).catch((err) => {
+                xhrError(err)
+            });
+
+            await axios.get(`${URLS.baseURL}/team/detail?id=${userPositionDetail?.team}`,userState.Auth)
+            .then((result) => {
+                newValue.team = result.data
+            }).catch((err) => {
+                xhrError(err)
+            });
+
+            setDetails(newValue)
+        })()
+    },[userPositionDetail,update])
+
+    const [updateValue,setUpdateValue] = useState(userPositionDetail?.id)
+
+    useEffect(()=>{
+
+        setUpdateValue(userPositionDetail?.id)
+
     },[userPositionDetail])
 
-    
-    return <Card className='px-4'>
-    <Typography>Branch:</Typography>
-    <Typography>Department:</Typography>
-    <Typography>Team:</Typography>
-    <Typography>Position:</Typography>
 
+
+
+    
+    return <Card className='grid grid-cols-2 gap-2'>
+    <Card className='px-4 p-5'>
+    <Typography>Branch:<strong className='font-extrabold px-4'>{otherDetails.branch?.name}</strong></Typography>
+    <Typography>Department: <strong className='font-extrabold'>{otherDetails.department?.name}</strong></Typography>
+    <Typography>Team:<strong className='font-extrabold px-4'>{otherDetails.team?.name}</strong></Typography>
+    <Typography>Position: <strong className='font-extrabold px-4'>{userPositionDetail?.title}</strong></Typography>
+    </Card>
+    <Card className='px-4 p-2'>
+        <div className='p-2'>
+            <label>Update Position</label>
+            <select value={updateValue} onChange={(e)=>setUpdateValue(e.target.value)} className='w-full rounded-md p-2 shadow-sm'>
+                {positions.map(each=><option value={each.id}>{each.title}</option>)}
+            </select>
+            <Button onClick={async (e)=>{
+                if(updateValue != userPositionDetail?.id)
+                {
+                    e.target.disabled = true;
+                    e.target.innerText = "............"
+                    await axios.put(`${URLS.baseURL}/position/update?id=${userId}`,{position:updateValue},userState.Auth)
+                    .then((result) => {
+                        setUpdate(!update)
+                        e.target.disabled = false;
+                        e.target.innerText = "Update"
+                        toast.success("Position updated!")                            
+                    }).catch((err) => {
+                        e.target.disabled = false;
+                        e.target.innerText = "Update"
+                        xhrError(err)
+                        
+                    });
+                }
+
+            }} className='m-2 bg-primary'>Update</Button>
+        </div>
+    </Card>
     </Card>
 }
 

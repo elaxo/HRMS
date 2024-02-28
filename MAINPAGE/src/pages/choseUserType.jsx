@@ -9,6 +9,7 @@ import axios from 'axios'
 import { xhrError } from '@/configs/ERRORS'
 import { useLocation, useNavigate } from 'react-router-dom'
 import CompanyReg from './dashboard/CompanyReg'
+import ProgressBar from "@ramonak/react-progress-bar";
 const ChoseUserType = () => {
 
     const location = useLocation()
@@ -116,6 +117,7 @@ cardNum == 1?
                 </Typography>
     </CardHeader>
     <CardBody>
+    <ProgressBar completed={20} bgColor='#00b050' />
         <div className='p-6 flex'>
 <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-10">
 <div className='space-y-2'>
@@ -197,6 +199,8 @@ cardNum == 1.1 ?
                 </Typography>
     </CardHeader>
     <CardBody>
+    <ProgressBar completed={40} bgColor='#00b050' />
+
         <div className='p-6 flex'>
 <div className="grid lg:grid-cols-3 sm:grid-cols-1 lg:grid-cols-2 gap-10">
 <div className='space-y-2'>
@@ -266,6 +270,7 @@ cardNum == 1.2 ?
     exit={{ x: -100 }}
     >
 <div className='pt-32 sm:w-full lg:w-1/2'>
+
 <Card>
     <CardHeader>
         <Typography variant='h5' className='p-6 text-primary'>
@@ -273,6 +278,8 @@ cardNum == 1.2 ?
                 </Typography>
     </CardHeader>
     <CardBody>
+    <ProgressBar completed={50} bgColor='#00b050' />
+
         <div className='p-6 flex'>
 <div className="grid lg:grid-cols-3 sm:grid-cols-1 lg:grid-cols-2 gap-10">
 <div className='space-y-2'>
@@ -396,6 +403,8 @@ cardNum == 1.3 ?
                </Typography>
    </CardHeader>
    <CardBody>
+   <ProgressBar completed={60} bgColor='#00b050' />
+
        <div className='p-6 flex'>
 <div className="grid lg:grid-cols-3 sm:grid-cols-1 lg:grid-cols-2 gap-10">
    <hr className='border-2 lg:col-span-3 sm:col-span-1 border-primary'/>
@@ -482,6 +491,8 @@ cardNum == 1.4 ?
                </Typography>
    </CardHeader>
    <CardBody>
+   <ProgressBar completed={70} bgColor='#00b050' />
+
    <div className='space-y-2 sm:co col-span-3'>
     <div className='flex'>
         <Checkbox label="I have no work experience" 
@@ -689,6 +700,8 @@ cardNum == 1.5 ?
                </Typography>
    </CardHeader>
    <CardBody>
+   <ProgressBar completed={90} bgColor='#00b050' />
+
 <div className='p-6 flex'>
 <div className="grid lg:grid-cols-3 sm:grid-cols-1 md:grid-cols-2 gap-4">
    <hr className='border-2 lg:col-span-3 sm:col-span-1 border-primary'/>
@@ -728,6 +741,8 @@ cardNum == 1.5 ?
                </Typography>
    </CardHeader>
    <CardBody>
+   <ProgressBar completed={95} bgColor='#00b050' />
+
 <div className='p-6 flex'>
 <div className="grid lg:grid-cols-3 sm:grid-cols-1 md:grid-cols-2 gap-4">
    <hr className='border-2 lg:col-span-3 sm:col-span-1 border-primary'/>
@@ -794,6 +809,8 @@ cardNum == 1.5 ?
                </Typography>
    </CardHeader>
    <CardBody>
+   <ProgressBar completed={100} bgColor='#00b050' />
+
 <div className='p-6 flex'>
 <div className="grid lg:grid-cols-3 sm:grid-cols-1 md:grid-cols-2 gap-4">
    <hr className='border-2 lg:col-span-3 sm:col-span-1 border-primary'/>

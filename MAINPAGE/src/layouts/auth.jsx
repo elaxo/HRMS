@@ -26,10 +26,10 @@ export function Auth() {
       await axios.post(`${URLS.baseURL}/users/verify`,{payload:userValue})
         .then(async (result) => {
           dispatch(setUser({token:userValue,detail:result.data}))
+          console.log(result?.data?.role)
           if(result?.data?.role == 0)
-
           navigate('/dashboard/user/type',{state:{card:2}})
-          else if(result?.data?.role == 1)
+          else if(result?.data?.role == 2)
           {
               (async ()=>{
                 await axios.get(`${URLS.baseURL}/employee/profile`,

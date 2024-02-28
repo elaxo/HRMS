@@ -208,6 +208,7 @@ const DepPage = {
                            <Textarea className='h-full' value={updates?.productService} onChange={e=>setUpdates({...updates,productService:e.target.value})} />
                            </div>
                         </div>
+                        <div className='flex space-x-1 m-2'>
                         <Button onClick={async ()=>{
                           
                           if(updates.name != "" || updates.productService.length <2)
@@ -224,7 +225,12 @@ const DepPage = {
                           }
                           else 
                           toast.warning("Please enter valid information")
-                        }} className='bg-primary m-2' disabled={loading}>{loading?"........":"Update Department"}</Button>
+                        }} className='bg-primary' disabled={loading}>{loading?"........":"Update"}
+                        </Button>
+                        <Button className='bg-orange-900'>
+                          Delete
+                        </Button>
+                        </div>
                         </div>
                         <Card className='col-span-2 px-2 border-2 border-primary'>
                           <CardBody>

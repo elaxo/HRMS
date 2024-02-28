@@ -1,6 +1,6 @@
 export const projectsTableData = [
   {
-    img: "/img/logo-xd.svg",
+    img:  "/img/logo-jira.svg",
     name: "Material XD Version",
     members: [
       { img: "/img/team-1.jpeg", name: "Romina Hadid" },
@@ -12,7 +12,7 @@ export const projectsTableData = [
     completion: 60,
   },
   {
-    img: "/img/logo-atlassian.svg",
+    img:  "/img/logo-jira.svg",
     name: "Add Progress Track",
     members: [
       { img: "/img/team-2.jpeg", name: "Ryan Tompson" },
@@ -22,7 +22,7 @@ export const projectsTableData = [
     completion: 10,
   },
   {
-    img: "/img/logo-slack.svg",
+    img: "/img/logo-jira.svg",
     name: "Fix Platform Errors",
     members: [
       { img: "/img/team-3.jpeg", name: "Jessica Doe" },
@@ -32,7 +32,7 @@ export const projectsTableData = [
     completion: 100,
   },
   {
-    img: "/img/logo-spotify.svg",
+    img:  "/img/logo-jira.svg",
     name: "Launch our Mobile App",
     members: [
       { img: "/img/team-4.jpeg", name: "Alexander Smith" },
@@ -51,7 +51,7 @@ export const projectsTableData = [
     completion: 25,
   },
   {
-    img: "/img/logo-invision.svg",
+    img:  "/img/logo-jira.svg",
     name: "Redesign New Online Shop",
     members: [
       { img: "/img/team-1.jpeg", name: "Romina Hadid" },

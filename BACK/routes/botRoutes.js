@@ -1,12 +1,13 @@
 const { botAuth } = require('../auth/Authorize')
-const { CREATE_TELEGRAM_USER } = require('../controller/botController')
+const botController = require('../controller/botController')
 
 const router = require('express').Router()
 
 const header = process.env.secret
 
-router.post('/bot/user/',botAuth,CREATE_TELEGRAM_USER)
-
+router.post('/bot/user/',botAuth,botController.CREATE_TELEGRAM_USER)
+router.get('/bot/define/user',botAuth,botController.defineUser)
+router.get('/bot/user/employees',botAuth,botController.MY_EMPLOYEES)
 
 
 

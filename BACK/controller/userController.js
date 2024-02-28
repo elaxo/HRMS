@@ -150,7 +150,8 @@ module.exports = {
             await db.CompanyEmployee.create({
                 profileId:User.id,
                 companyId:pendingUser.company,
-                position:pendingUser.position
+                position:pendingUser.position,
+                startDate:pendingUser.startDate
                 })
             await db.Users.update({password:password},{where:{id:User.id}})
             .then((result) => {

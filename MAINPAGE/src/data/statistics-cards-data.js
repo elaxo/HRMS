@@ -7,47 +7,43 @@ import {
 
 export const statisticsCardsData = [
   {
-    color: "gray",
     icon: BanknotesIcon,
-    title: "Today's Money",
-    value: "$53k",
+    title: "Total branches",
+    value: "2",
     footer: {
       color: "text-green-500",
-      value: "+55%",
-      label: "than last week",
+      value: "2",
+      label:" branches in your company"
     },
   },
   {
-    color: "gray",
     icon: UsersIcon,
-    title: "Today's Users",
-    value: "2,300",
+    title: "Total department's",
+    value: "0",
     footer: {
       color: "text-green-500",
-      value: "+3%",
-      label: "than last month",
+      value: "0",
+      label: "Total department's in your company",
     },
   },
   {
-    color: "gray",
     icon: UserPlusIcon,
-    title: "New Clients",
-    value: "3,462",
+    title: "Total Teams",
+    value: "0",
     footer: {
-      color: "text-red-500",
-      value: "-2%",
-      label: "than yesterday",
+      color: "text-primary",
+      value: "0",
+      label: "Total teams in company",
     },
   },
   {
-    color: "gray",
-    icon: ChartBarIcon,
-    title: "Sales",
-    value: "$103,430",
+    icon: UsersIcon,
+    title: "Employees",
+    value: "1",
     footer: {
       color: "text-green-500",
-      value: "+5%",
-      label: "than yesterday",
+      value: "1",
+      label: "Total employees in company",
     },
   },
 ];

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
   Button,
@@ -6,6 +6,7 @@ import {
   Switch,
   Typography,
   Chip,
+  Checkbox,
 } from "@material-tailwind/react";
 import {
   useMaterialTailwindController,
@@ -63,6 +64,18 @@ export function Configurator() {
       .then((data) => setStars(formatNumber(data.stargazers_count, 1)));
   }, []);
 
+const [temPos,setTeamPos] = useState(false)
+useEffect(()=>{
+  let tempos = localStorage.getItem("temapos")
+  if(tempos == null)
+  setTeamPos(true)
+  else if(tempos == "Teams")
+  setTeamPos(true)
+  else 
+  setTeamPos(false)
+
+},[])
+
   return (
     <aside
       className={`fixed top-0 right-0 z-50 h-screen w-96 bg-white px-2.5 shadow-lg transition-transform duration-300 ${
@@ -71,11 +84,8 @@ export function Configurator() {
     >
       <div className="flex items-start justify-between px-6 pt-8 pb-6">
         <div>
-          <Typography variant="h5" color="blue-gray">
-            Dashboard Configurator
-          </Typography>
-          <Typography className="font-normal text-blue-gray-600">
-            See our dashboard options.
+          <Typography variant="h5" className="text-primary">
+            Configuration
           </Typography>
         </div>
         <IconButton
@@ -88,24 +98,32 @@ export function Configurator() {
       </div>
       <div className="py-4 px-6">
         <div className="mb-12">
-          <Typography variant="h6" color="blue-gray">
-            Sidenav Colors
+          <Typography variant="h6" className="text-primary">
+            Teams Menu
           </Typography>
           <div className="mt-3 flex items-center gap-2">
-            {Object.keys(sidenavColors).map((color) => (
-              <span
-                key={color}
-                className={`h-6 w-6 cursor-pointer rounded-full border bg-gradient-to-br transition-transform hover:scale-105 ${
-                  sidenavColors[color]
-                } ${
-                  sidenavColor === color ? "border-black" : "border-transparent"
-                }`}
-                onClick={() => setSidenavColor(dispatch, color)}
-              />
-            ))}
+            <Checkbox
+            className="text-primary"
+            checked={temPos}
+            label="Enable teams menu" 
+            onClick={(e)=>{
+              if(e.target.checked)
+              {
+                localStorage.setItem("temapos","Teams")
+                window.location.reload()
+
+              }
+              else 
+              {
+                localStorage.setItem("temapos","Positions")
+                window.location.reload()
+
+              }
+            }}
+            />            
           </div>
         </div>
-        <div className="mb-12">
+        {/* <div className="mb-12">
           <Typography variant="h6" color="blue-gray">
             Sidenav Types
           </Typography>
@@ -132,8 +150,10 @@ export function Configurator() {
               White
             </Button>
           </div>
-        </div>
-        <div className="mb-12">
+        </div> */}
+
+
+        {/* <div className="mb-12">
           <hr />
           <div className="flex items-center justify-between py-5">
             <Typography variant="h6" color="blue-gray">
@@ -226,7 +246,7 @@ export function Configurator() {
               Share
             </Button>
           </div>
-        </div>
+        </div> */}
       </div>
     </aside>
   );

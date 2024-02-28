@@ -9,7 +9,7 @@ import {
 } from "@material-tailwind/react";
 import { useMaterialTailwindController, setOpenSidenav } from "@/context";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import EmployeeHome from "@/pages/dashboard/EmployeeHome";
 import EmployeeProfile from "@/pages/dashboard/employeeProfile";
 import { BanknotesIcon, BuildingOffice2Icon, ChevronDoubleLeftIcon, CircleStackIcon, HomeIcon, ScaleIcon, TagIcon, UserCircleIcon, UserGroupIcon } from "@heroicons/react/24/solid";
@@ -26,7 +26,14 @@ const icon = {
 export function SidenavEmpr({ brandImg, brandName }) {
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavColor, sidenavType, openSidenav } = controller;
+  const [teamPos,setTeampos] = useState("....")
   const userState = useSelector((state)=>state.userState)
+  useEffect(()=>{
+
+    let tempos = localStorage.getItem('temapos')
+    setTeampos(tempos)
+
+  },[])
   const sidenavTypes = {
     dark: "bg-gradient-to-br from-gray-800 to-gray-900",
     white: "bg-white shadow-sm",
@@ -58,7 +65,7 @@ export function SidenavEmpr({ brandImg, brandName }) {
           element: <Departments/>,
         },{
           icon: <UserGroupIcon {...icon} />,
-          name: "Teams",
+          name: teamPos == null?"Teams":teamPos,
           path: "/empr/teams",
           element: <Departments/>,
         },
@@ -69,15 +76,15 @@ export function SidenavEmpr({ brandImg, brandName }) {
           element: <EmployeeProfile />,
         },
         {
-          icon: <BanknotesIcon {...icon} />,
-          name: "Projects",
-          path: "/empr/project",
-          element: <EmployeeProfile />,
-        },
-        {
           icon: <TagIcon {...icon} />,
           name: "Requests",
           path: "/empr/requests",
+          element: <EmployeeProfile />,
+        },
+        {
+          icon: <BanknotesIcon {...icon} />,
+          name: "Projects",
+          path: "/empr/project",
           element: <EmployeeProfile />,
         },
       ],

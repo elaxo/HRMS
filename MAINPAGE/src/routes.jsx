@@ -17,6 +17,9 @@ import EmployerHome from "./pages/employeer/Employeer";
 import Departments from "./pages/employeer/Departments";
 import Teams from "./pages/employeer/Teams";
 import Employees from "./pages/employeer/Employees";
+import Branch from "./pages/employeer/Branch";
+import LeaveRequest from "./pages/dashboard/LeaveRequest";
+import { Requests } from "./pages/employeer/Requests";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -26,7 +29,12 @@ export const routes = [
   {
     layout: "dashboard",
     pages: [
-
+      {
+        icon: <HomeIcon {...icon} />,
+        name: "dashboard",
+        path: "/empr/requests",
+        element: <Requests />,
+      },
       {
         icon: <HomeIcon {...icon} />,
         name: "dashboard",
@@ -44,6 +52,12 @@ export const routes = [
         name: "Departments",
         path: "/empr/teams",
         element: <Teams />,
+      },
+      {
+        icon: <UserGroupIcon {...icon} />,
+        name: "Branches",
+        path: "/empr/branches",
+        element: <Branch />,
       },
       {
         icon: <CircleStackIcon {...icon} />,
@@ -80,6 +94,12 @@ export const routes = [
         name: "notifications",
         path: "/notifications",
         element: <Notifications />,
+      },
+      {
+        icon: <UserCircleIcon {...icon} />,
+        name: "Leave Request",
+        path: "/emp/request",
+        element: <LeaveRequest />,
       },
     ],
   },
