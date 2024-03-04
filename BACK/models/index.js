@@ -27,8 +27,8 @@ db.CompanyEmployee = require('./companyEmployee')(sequelize,DataTypes)
 db.pendingEmployee = require('./pendingEmployee')(sequelize,DataTypes)
 db.calendar  = require('./calander')(sequelize,DataTypes)
 db.LeaveRequest = require('./leaveRequest')(sequelize,DataTypes)
-
-
+db.breaks = require('./breaks')(sequelize,DataTypes)
+db.projects = require('./projects')(sequelize,DataTypes)
 
 
 

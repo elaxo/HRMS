@@ -43,5 +43,9 @@
     "/leave/request",
     "/employee/requests/me",
     "/company/requests",
-    "/employee/position/detail"
+    "/employee/position/detail",
+    "/company/accept/request",
+    "/employee/breaks/my",
+    "/employees/filter",
+    "/company/employee/breaks"
 ]

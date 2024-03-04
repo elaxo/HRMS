@@ -4,7 +4,7 @@ const PROVIDER = require('../provider')
 const { Obj } = require('../service/debug')
 const { RES_RESULT, NOT_FOUND_MSG } = require('../service/responses')
 const { DATABASE_ERROR } = require('../service/error_handler')
-
+const moment = require('moment')
 module.exports = {
 
     COMPANY_EMPLOYEE:async (req,res)=>{
@@ -171,8 +171,7 @@ module.exports = {
             DATABASE_ERROR(err,res)
         });
     },
-    EMPLOYEE_POSITION: async (req,res)=>{
-        
+    EMPLOYEE_POSITION: async (req,res)=>{        
         let User = req.user 
         let id = req.query.id 
         if(id != undefined)
@@ -189,6 +188,45 @@ module.exports = {
         }
         else
         NOT_FOUND_MSG("Required filed missing",res)
+
+    },
+    MY_BREAKS:async (req,res)=>{
+        let User = req.user 
+        await db.breaks.findOne({where:{userId:User.id,isEnd:0},raw:true})
+        .then(async (result) => {
+            let breaks = result
+            if(breaks != null)
+            {
+                const numericValue = moment().diff(moment(breaks.endDate), 'days');
+                if(numericValue >= 0)
+                {
+                    await db.breaks.update({isEnd:1},{where:{id:breaks.id}})
+                    .then((result) => {
+                        RES_RESULT(null,res)                        
+                    }).catch((err) => {
+                        DATABASE_ERROR(err,res)
+                    });
+                }
+                else
+                RES_RESULT(result,res)    
+            }
+        }).catch((err) => {
+            DATABASE_ERROR(err,res)
+        });
+    },
+    ON_BREAK: async (req,res)=>{
+
+        let User = req.user 
+        let company = await PROVIDER.COMPANY.COMPANY_BY_OWNER(User.id)
+        if(company != null)
+        await db.breaks.findAll({where:{company:company.id}})
+        .then((result) => {
+            RES_RESULT(result,res)
+        }).catch((err) => {
+            DATABASE_ERROR(err,res)
+        });
+        else
+        NOT_FOUND_MSG("Company not found")
 
     }
 

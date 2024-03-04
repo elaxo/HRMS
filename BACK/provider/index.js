@@ -11,4 +11,5 @@ PROVIDER.TEAM = require('./teamProvider')
 PROVIDER.POSITION = require('./postionProvider')
 PROVIDER.PENDING_EMPLOYEE = require('./pendingEmployee')
 PROVIDER.EMPLOYEE_PROFILE = require('./EmployeeProvider')
+PROVIDER.SYSTEM = require('./systemProvider')
 module.exports = PROVIDER

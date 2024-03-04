@@ -5,12 +5,29 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import UploadAvatar from './Components/UploadAvatar'
 import UploadEducationalDoc from './Components/UploadEducationalDoc'
+import axios from 'axios'
+import { xhrError } from '@/configs/ERRORS'
+import moment from 'moment'
+import 'react-circular-progressbar/dist/styles.css';
+import { CircularProgressbar } from 'react-circular-progressbar'
 
 const EmployeeHome = () => {
 
 
     const userState = useSelector((state)=>state.userState)
     const [percent,setPercent] = useState(70)
+    const [myBreak,setBreaks] = useState(null)
+
+    useEffect(()=>{
+        (async ()=>{
+            await axios.get(`${URLS.baseURL}/employee/breaks/my`,userState.Auth)
+            .then((result) => {
+                setBreaks(result.data)
+            }).catch((err) => {
+                xhrError(err)
+            });
+        })()
+    },[])
 
 
     useEffect(()=>{
@@ -23,10 +40,9 @@ const EmployeeHome = () => {
         if(userState.profile?.educationalDocument != null)
         setPercent(percent+15)
     }
-        
-        
-        
-        
+    
+    
+    
     },[userState.profile])
 
   return (
@@ -41,7 +57,7 @@ const EmployeeHome = () => {
             </Typography>
         </CardHeader>
         <CardBody className='p-4'>
-        <div className='grid lg:grid-cols-3 md:grid-cols-1 pt-6 gap-3'>
+{myBreak == null?        <div className='grid lg:grid-cols-3 md:grid-cols-1 pt-6 gap-3'>
         <Card>               
              <CardHeader className='p-4 bg-primary'>
                     <Typography variant='h5' className='text-white'>
@@ -179,8 +195,14 @@ const EmployeeHome = () => {
                     </List>
                 </CardBody>
             </Card>
-        </div>
-        </CardBody>
+        </div>:
+        <Card>
+            <CardBody className='p-4 flex flex-col items-center justify-center space-y-3'>
+            <CircularProgressbar className='w-44 border-primary' background="#00b050" value={Math.abs(moment().diff(moment(myBreak?.endDate), 'days'))*100/Math.abs(moment(myBreak?.endDate).diff(moment(myBreak?.startDate),'days'))} text={`${-1*moment().diff(moment(myBreak?.endDate), 'days')} days`} />
+                <Typography variant='h5' className='text-primary'>{userState?.profile?.name} Your break will end in {moment(myBreak?.endDate).fromNow()}</Typography>
+            </CardBody>
+        </Card>
+}        </CardBody>
       </Card>
       <Card>
         <CardBody className='grid grid-cols-3 gap-3'>

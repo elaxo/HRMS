@@ -81,7 +81,7 @@ router.get('/employee/dayoff',userAuth,CONTROLLER.COMPANY_EMPLOYEE_CONTROLLER.GE
 router.post('/leave/request',userAuth,CONTROLLER.COMPANY_EMPLOYEE_CONTROLLER.LEAVE_REQUEST)
 router.get('/employee/requests/me',userAuth,CONTROLLER.COMPANY_EMPLOYEE_CONTROLLER.MY_REQUESTS)
 router.get('/employee/position/detail',userAuth,CONTROLLER.COMPANY_EMPLOYEE_CONTROLLER.EMPLOYEE_POSITION)
-
+router.get('/employee/breaks/my',userAuth,CONTROLLER.COMPANY_EMPLOYEE_CONTROLLER.MY_BREAKS)
 
 
 router.post('/leave/document',userAuth,Document.single('document'),async (req,res)=>{
@@ -98,6 +98,9 @@ router.get('/company/user',userAuth,CONTROLLER.COMPANY_CONTROLLER.USER_COMPANY_D
 router.get('/company/employees',userAuth,CONTROLLER.COMPANY_EMPLOYEE_CONTROLLER.COMPANY_EMPLOYEE)
 router.get('/company/me',userAuth,CONTROLLER.COMPANY_EMPLOYEE_CONTROLLER.ME_IN_COMPANY)
 router.get('/company/requests',userAuth,CONTROLLER.COMPANY_CONTROLLER.RECEIVED_REQUEST)
+router.put('/company/accept/request',userAuth,CONTROLLER.COMPANY_CONTROLLER.ACCEPT_REQUEST)
+router.get('/company/employee/breaks',userAuth,CONTROLLER.COMPANY_EMPLOYEE_CONTROLLER.ON_BREAK)
+
 
 router.post('/branch/create',userAuth,CONTROLLER.BRANCH_CONTROLLER.CREATE_BRANCH)
 router.get('/branches/user',userAuth,CONTROLLER.BRANCH_CONTROLLER.USER_BRANCHES_LIST)

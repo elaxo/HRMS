@@ -70,7 +70,7 @@ const Employees = () => {
 
   return (
   <>
- <Dialog open={show} size='xl'>
+ <Dialog open={show} size='xl' className='overflow-y-scroll h-[95%]'>
     <DialogHeader className='rounded-md shadow-lg p-2 flex justify-between items-center bg-primary'>
             <Typography variant='h5' className='p-2 text-white'>Profile Detail - {currentDetail?.name}</Typography>
             <IconButton onClick={()=>setShow(false)} className='bg-white rounded-full border-none'>
@@ -174,6 +174,7 @@ const Employees = () => {
     </CardHeader>
     <CardBody>
             <div className='grid grid-cols-4 gap-3'>
+                <div className='col-span-3'>
                 <div>
                     <Card>
                         <CardBody>
@@ -201,7 +202,7 @@ const Employees = () => {
                             </div>
                             </div>
                             <div>
-<Dialog open={openDialog}>
+<Dialog open={openDialog} >
     <ToastContainer/>
     <DialogHeader className='flex flex-col justify-start shadow-md'>
         <Typography variant='h5' className='text-primary text-left m-2'>Create employee</Typography>
@@ -333,7 +334,7 @@ const Employees = () => {
                         </CardBody>
                     </Card>
                 </div>
-                <div className='col-span-2'>
+                
                     <AllEmployees />
                 </div>
                 <div>
@@ -567,8 +568,8 @@ const AllEmployees = ({})=>{
     return (
     <>
 
-    <Dialog open={show} size='xl'>
-    <DialogHeader className='rounded-md shadow-lg p-2 flex justify-between items-center bg-primary'>
+    <Dialog open={show} size='xl' className='overflow-y-scroll h-[95%]'>
+    <DialogHeader className='sticky top-0 z-50 rounded-md shadow-lg p-2 flex justify-between items-center bg-primary'>
             <Typography variant='h5' className='p-2 text-white'>Profile Detail - {currentDetail?.name}</Typography>
             <IconButton onClick={()=>setShow(false)} className='bg-white rounded-full border-none'>
                 <XCircleIcon className='h-6 text-primary' />

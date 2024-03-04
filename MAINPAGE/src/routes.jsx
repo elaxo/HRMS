@@ -20,6 +20,7 @@ import Employees from "./pages/employeer/Employees";
 import Branch from "./pages/employeer/Branch";
 import LeaveRequest from "./pages/dashboard/LeaveRequest";
 import { Requests } from "./pages/employeer/Requests";
+import { Projects } from "./pages/employeer/Projects";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -64,7 +65,13 @@ export const routes = [
         name: "Employees",
         path: "/empr/employees",
         element: <Employees />,
+      },{
+        icon: <CircleStackIcon {...icon} />,
+        name: "Employees",
+        path: "/empr/projects",
+        element: <Projects />,
       },
+      
       {
         icon:<RectangleStackIcon {...icon}/>,
         name:"userType",

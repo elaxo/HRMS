@@ -77,14 +77,14 @@ export function SidenavEmpr({ brandImg, brandName }) {
         },
         {
           icon: <TagIcon {...icon} />,
-          name: "Requests",
+          name: "Leave Requests",
           path: "/empr/requests",
           element: <EmployeeProfile />,
         },
         {
           icon: <BanknotesIcon {...icon} />,
           name: "Projects",
-          path: "/empr/project",
+          path: "/empr/projects",
           element: <EmployeeProfile />,
         },
       ],

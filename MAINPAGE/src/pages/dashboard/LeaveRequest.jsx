@@ -1,7 +1,7 @@
 import { xhrError } from '@/configs/ERRORS'
 import { URLS } from '@/configs/URLS'
 import { DocumentArrowUpIcon, DocumentCheckIcon, GiftIcon, ShareIcon } from '@heroicons/react/24/solid'
-import { Badge, Button, ButtonGroup, Card, CardBody, CardFooter, CardHeader, Input, Option, Radio, Select, Textarea, Typography } from '@material-tailwind/react'
+import { Badge, Button, ButtonGroup, Card, CardBody, CardFooter, CardHeader, Chip, Input, Option, Radio, Select, Textarea, Typography } from '@material-tailwind/react'
 import axios from 'axios'
 import moment from 'moment'
 import React, { useEffect, useRef, useState } from 'react'
@@ -35,8 +35,10 @@ const LeaveRequest = () => {
             await axios.get(`${URLS.baseURL}/employee/dayoff`,userState.Auth)
             .then((result) => {
                 let data = result?.data
-                if(data != null)
-                setDayOff(JSON.parse(data?.dayOff))
+                console.log("Day off",data)
+                setDayOff(data?.dayOff)
+                // if(data != null)
+                // setDayOff(JSON.parse(data?.dayOff))
             }).catch((err) => {
                 xhrError(err)
             });
@@ -269,7 +271,6 @@ const LeaveRequest = () => {
                         comment:"",
                         file:""
                 })
-        
             }).catch((err) => {
                 xhrError(err)
                 e.target.disable = false 
@@ -419,7 +420,9 @@ const LeaveRequest = () => {
                             columns={[
                                 {name:<Typography className='text-primary'>Leave</Typography>,selector:(row)=>row.type == 1 ?"Health Leave":row.type == 2 ? "Birth Leave":row.type == 3?"Special Leave":row.type == 4?"Annual leave":"Unknown Leave"},
                                 {name:<Typography className='text-primary'>Start Date</Typography>,selector:(row)=>moment(row.startDate).format("DD-MM-YY")},
-                                {name:"Status",selector:(row)=>row.status == 0?<Badge color='green' >PENDING</Badge>:""}
+                                {name:"Status",selector:(row)=>row.status == 0?<Chip value="Pending" className='bg-blue-400' />
+                                                               :row.status == 1?<Chip className={moment().diff(moment(row.endDate),'days') >= 0?"bg-primary":"bg-orange-600"} value={moment().diff(moment(row.endDate),'days') >= 0?"Taken": moment(row.endDate).fromNow()} />
+                                                               :<Chip value="Declined" className='bg-orange-900' />}
                             ]}
                             subHeader
                             subHeaderComponent={<Typography>Previous Requests</Typography>}
