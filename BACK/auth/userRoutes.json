@@ -47,5 +47,6 @@
     "/company/accept/request",
     "/employee/breaks/my",
     "/employees/filter",
-    "/company/employee/breaks"
+    "/company/employee/breaks",
+    "/search/employee"
 ]

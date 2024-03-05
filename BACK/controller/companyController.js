@@ -7,7 +7,7 @@ const { SUCCESS_MSG, RES_RESULT, NOT_FOUND_MSG, ERROR_FOUND } = require('../serv
 const employee = require('../models/employee')
 const { query } = require('express')
 const { SEND_TELEGRAM_NOTIFICATION } = require('../provider/botProvider')
-
+const {Op} = require('sequelize')
 module.exports = {
     CREATE_COMPANY:async (req,res)=>{
         let ownUser = req.user 
@@ -192,6 +192,33 @@ module.exports = {
         }
         else 
         NOT_FOUND_MSG("Required field is missing",res)
+    },
+    SEARCH_EMPLOYEE:async (req,res)=>{
+        let query = req.query.q 
+        let User = req.user 
+        let company = await PROVIDER.COMPANY.COMPANY_BY_OWNER(User.id)
+        if(company != null)
+        {
+            let response = []
+            let companyEmployees = await PROVIDER.COMPANY.COMPANY_EMPLOYEES(company.id)
+            await db.Employees.findAll({where:{name:{[Op.like]:query+'%'}},raw:true})
+            .then((result) => {
+                result.map((each)=>{
+                    companyEmployees.map((eachEmployees)=>{
+                        if(each.userId == eachEmployees.profileId)
+                        response.push({...each,eachEmployees})
+                    })
+                })
+
+            RES_RESULT(response,res)
+            }).catch((err) => {
+                DATABASE_ERROR(err,res)
+            });
+        }
+        else
+        NOT_FOUND_MSG("Company not found",res)
+
+
     }
 }
 

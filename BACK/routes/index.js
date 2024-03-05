@@ -100,7 +100,7 @@ router.get('/company/me',userAuth,CONTROLLER.COMPANY_EMPLOYEE_CONTROLLER.ME_IN_C
 router.get('/company/requests',userAuth,CONTROLLER.COMPANY_CONTROLLER.RECEIVED_REQUEST)
 router.put('/company/accept/request',userAuth,CONTROLLER.COMPANY_CONTROLLER.ACCEPT_REQUEST)
 router.get('/company/employee/breaks',userAuth,CONTROLLER.COMPANY_EMPLOYEE_CONTROLLER.ON_BREAK)
-
+router.get('/search/employee',userAuth,CONTROLLER.COMPANY_CONTROLLER.SEARCH_EMPLOYEE)
 
 router.post('/branch/create',userAuth,CONTROLLER.BRANCH_CONTROLLER.CREATE_BRANCH)
 router.get('/branches/user',userAuth,CONTROLLER.BRANCH_CONTROLLER.USER_BRANCHES_LIST)
